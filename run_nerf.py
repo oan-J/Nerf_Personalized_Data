@@ -31,7 +31,7 @@ import cv2
 
 
 _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# torch.cuda.set_device(2)
+torch.cuda.set_device(2)
 np.random.seed(0)
 DEBUG = False
 
@@ -184,11 +184,11 @@ def render_path(render_poses, hwf, chunk, render_kwargs, gt_imgs=None, savedir=N
             imageio.imwrite(filename, rgb8)
             depth = depth.cpu().numpy()
             print("max:", np.nanmax(depth))
-            # depth = depth / 5 * 255
-            # depth_color = cv2.applyColorMap(depth.astype(np.uint8), cv2.COLORMAP_JET)[:,:,::-1]
-            # depth_color[np.isnan(depth_color)] = 0
-            # imageio.imwrite(os.path.join(savedir, '{:03d}_depth.png'.format(i)), depth_color)
-            imageio.imwrite(os.path.join(savedir, '{:03d}_depth.png'.format(i)), depth)
+            depth = depth / 5 * 255
+            depth_color = cv2.applyColorMap(depth.astype(np.uint8), cv2.COLORMAP_JET)[:,:,::-1]
+            depth_color[np.isnan(depth_color)] = 0
+            imageio.imwrite(os.path.join(savedir, '{:03d}_depth.png'.format(i)), depth_color)
+            # imageio.imwrite(os.path.join(savedir, '{:03d}_depth.png'.format(i)), depth)
             np.savez(os.path.join(savedir, '{:03d}.npz'.format(i)), rgb=rgb.cpu().numpy(), disp=disp.cpu().numpy(), acc=acc.cpu().numpy(), depth=depth)
 
 
