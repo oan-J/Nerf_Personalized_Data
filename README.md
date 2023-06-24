@@ -102,7 +102,7 @@ https://blog.csdn.net/qq_40514113/article/details/131228304
 
 - Put the image data you generated in 'data', the structure should look like this:
 
-` 
+```
 .
 ├── earphone
 │   ├── earphone.db
@@ -119,7 +119,7 @@ https://blog.csdn.net/qq_40514113/article/details/131228304
 │           ├── images.bin
 │           ├── points3D.bin
 │           └── project.ini
-`
+```
 
 - Run 
 ```python imgs2poses.py data/earphone```
@@ -135,7 +135,9 @@ Rename the file to 'train_images.npy'
   ``` apt install xvfb```
   - use xvfb to get sparse data
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap feature_extractor --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --ImageReader.single_camera 1 --SiftExtraction.use_gpu 0```
+
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap exhaustive_matcher --database_path data/earphone_2v/database.db```
+  
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap mapper --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --export_path data/earphone_2v/sparse```
   - If you meet this problem :
     > QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-aadithyasb'
