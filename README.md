@@ -13,7 +13,10 @@ pip install -r requirements.txt
 
 ### Prepare your own data
 
-The personalized data is already in 'data/earphone', you can use pictures in this directory or create your own data following these steps.
+The personalized data is already in 'data/earphone'(partly), you can use pictures in this directory or create your own data following these steps.
+
+The whole dataset is here: [data](https://drive.google.com/drive/folders/1OrtjEtpFqFLwFICv6_yJVholQ0pWaXmC)
+
 
 #### Take pictures
 - Take pictures of one subject, make sure to turn them into .png file.
