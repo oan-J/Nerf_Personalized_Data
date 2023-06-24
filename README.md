@@ -86,9 +86,7 @@ After following the steps above, do:
  ```python run_nerf.py --config configs/earphone.txt --dataset_type llff```
 
 ### Results
-<video id="video" controls="" preload="none" poster="封面">
-      <source id="mp4" src="https://github.com/oan-J/Nerf_Personalized_Data/blob/main/logs/earphone/earphone/earphone_spiral_010000_rgb.mp4" type="video/mp4">
-</videos>
+https://drive.google.com/drive/folders/1OrtjEtpFqFLwFICv6_yJVholQ0pWaXmC
     
 ---
 
