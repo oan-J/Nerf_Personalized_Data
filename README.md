@@ -63,15 +63,21 @@ After following the steps above, do:
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap mapper --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --export_path data/earphone_2v/sparse```
   - If you meet this problem :
     > QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-aadithyasb'
+    
     do this:
+    
     ```export XDG_RUNTIME_DIR=/NeRF/DSNeRF-main```
+    
     ```export RUNLEVEL=3```
+    
     ```cd ~```
+    
     ```source .bashrc```
 
 - If you do have graphical interface environment, do this:
   
   ```python3 imgs2poses.py data/earphone_2v/```
+  
   
 #### Testing
 ```python run_nerf.py --config configs/earphone.txt --render_only --dataset_type llff```
