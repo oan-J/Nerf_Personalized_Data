@@ -24,7 +24,7 @@ The personalized data is already in 'data/earphone', you can use pictures in thi
 ##### Use COLMAP app (recommended)
 [reference: how to generate poses and sparse point cloud using COLMAP](https://blog.csdn.net/qq_40514113/article/details/131228304)
 
-After following the steps above:
+After following the steps above, do:
 
 - Put the image data you generated in 'data', the structure should look like this:
 
