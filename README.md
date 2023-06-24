@@ -55,6 +55,7 @@ After following the steps above:
   - download xvfb
   ``` apt install xvfb```
   - use xvfb to get sparse data
+    
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap feature_extractor --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --ImageReader.single_camera 1 --SiftExtraction.use_gpu 0```
 
   ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap exhaustive_matcher --database_path data/earphone_2v/database.db```
