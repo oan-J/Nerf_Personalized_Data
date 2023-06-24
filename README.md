@@ -10,123 +10,44 @@ Install requirements:
 pip install -r requirements.txt
 ```
 
-You will also need [COLMAP](https://github.com/colmap/colmap) installed to compute poses if you want to run on your data.
 
-### Data
+### Prepare your own data
 
-### Pre-trained Models
+The personalized data is already in 'data/earphone', you can use pictures in this directory or create your own data following these steps.
 
-You can download our pre-trained models using the following script:
-```
-bash download_models.sh
-```
-
-### How to Run?
-
-#### Generate camera poses and sparse depth information using COLMAP (optional)
-
-This step is necessary only when you want to run on your data.
-
-First, place your scene directory somewhere. See the following directory structure for an example:
-```
-├── data
-│   ├── fern_2v
-│   ├── ├── images
-│   ├── ├── ├── image001.png
-│   ├── ├── ├── image002.png
-```
-
-To generate the poses and sparse point cloud:
-```
-python imgs2poses.py <your_scenedir>
-```
-
-Note: if you use this data format, make sure your `dataset_type` in the config file is set as `llff`.
-
-
-#### Testing
-
-Once you have the experiment directory (downloaded or trained on your own) in `./logs`, 
-
-- to render a video:
-```
-python run_nerf.py --config configs/fern_dsnerf.txt --render_only
-```
-
-The video would be stored in the experiment directory.
-
-<!-- - to only compute the evaluation metrics:
-```
-python run_nerf.py --config configs/fern_dsnerf.txt --eval
-``` -->
-
-
-#### Training
-
-To train a DS-NeRF on the example `fern` dataset:
-```
-python run_nerf.py --config configs/fern_dsnerf.txt
-```
-
-It will create an experiment directory in `./logs`, and store the checkpoints and rendering examples there.
-
-You can create your own experiment configuration to try other datasets.
-
-
-### Use depth-supervised loss in your own project
-
-We provide a tutorial on how to use depth-supervised loss in your own project [here](resources/tutorial.md).
-
-
-
----
-
-## Acknowledgments
-
-[colmap](https://github.com/colmap/colmap)
-[DS-Nerf](https://github.com/dunbar12138/DSNeRF)
-
-# temp
-
-## Prepare your own data
-
-### Take pictures
+#### Take pictures
 - Take pictures of one subject, make sure to turn them into .png file.
-- Put the pictures into Dir 'data/'
-  - We have already put the pictures into 'data/earphone', you can use pictures in this directory or take your own pictures and follow the directory structure for an example.
-### To generate the poses and sparse point cloud
+- Put the pictures into Dir 'data/your_object'
+    
+#### Generate the poses and sparse point cloud
 
-#### use COLMAP app
-reference:
-https://blog.csdn.net/qq_40514113/article/details/131228304
+##### Use COLMAP app (recommended)
+[reference: how to generate poses and sparse point cloud using COLMAP](https://blog.csdn.net/qq_40514113/article/details/131228304)
+
+After following the steps above:
 
 - Put the image data you generated in 'data', the structure should look like this:
 
-```
-.
-├── earphone
-│   ├── earphone.db
-│   ├── images
-│   │   ├── IMG_6697.png
-│   │   ├── IMG_6698.png
-│   │   ├── IMG_6699.png
-│   │   ├── IMG_6700.png
-│   │   ├── ...
-│   ├── poses_bounds.npy
-│   └── sparse
-│       └── 0
-│           ├── cameras.bin
-│           ├── images.bin
-│           ├── points3D.bin
-│           └── project.ini
-```
+    ```
+    .
+    ├── earphone
+    │   ├── earphone.db
+    │   ├── images
+    │   │   ├── IMG_6697.png
+    │   │   ├── IMG_6698.png
+    │   │   ├── IMG_6699.png
+    │   │   ├── IMG_6700.png
+    │   │   ├── ...
+    │   ├── poses_bounds.npy
+    │   └── sparse
+    │       └── 0
+    │           ├── cameras.bin
+    │           ├── images.bin
+    │           ├── points3D.bin
+    │           └── project.ini
+    ```
 
-- Run 
-```python imgs2poses.py data/earphone```
-If it runs successfully, you will have the file  `poses_bounds.npy` generated.
-Rename the file to 'train_images.npy'
-
-#### use COLMAP code
+##### Use COLMAP code
 - You probably need to change the file path of colmap in 'llff/poses/colmap_wrapper.py'
   or example:
   > [feat_output = subprocess.check_output(['/usr/bin/colmap'] + feature_extractor_args, universal_newlines=True)]
@@ -155,3 +76,11 @@ Rename the file to 'train_images.npy'
 
 ### Train
  ```python run_nerf.py --config configs/earphone.txt --dataset_type llff```
+ 
+---
+
+## Acknowledgments
+
+[colmap](https://github.com/colmap/colmap)
+
+[DS-Nerf](https://github.com/dunbar12138/DSNeRF)
