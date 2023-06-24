@@ -1,57 +1,5 @@
-# Depth-supervised NeRF: Fewer Views and Faster Training for Free
-
-[**Project**](https://www.cs.cmu.edu/~dsnerf/) | [**Paper**](https://arxiv.org/abs/2107.02791) | [**YouTube**](https://youtu.be/84LFxCo7ogk)
-
-Pytorch implementation of DS-NeRF. DS-NeRF can improve the training of neural radiance fields by leveraging depth supervision derived from 3D point clouds. It can be used to train NeRF models given only very few input views.
-
-<p align="center">
-  <img src="resources/DSNeRF_teaser_small.gif"  width="800" />
-</p>
-
-
-[Depth-supervised NeRF: Fewer Views and Faster Training for Free](https://www.cs.cmu.edu/~dsnerf/)
-
-arXiv 2107.02791, 2021
-
- [Kangle Deng](https://dunbar12138.github.io/)<sup>1</sup>,
- [Andrew Liu](https://andrewhliu.github.io/)<sup>2</sup>,
- [Jun-Yan Zhu](https://www.cs.cmu.edu/~junyanz/)<sup>1</sup>,
- [Deva Ramanan](https://www.cs.cmu.edu/~deva/)<sup>1,3</sup>,
-
-<sup>1</sup>CMU, <sup>2</sup>Google, <sup>3</sup>Argo AI
-
----
-
-We propose DS-NeRF (Depth-supervised Neural Radiance Fields), a model for learning neural radiance fields that takes advantage of depth supervised by 3D point clouds. Current NeRF methods require many images with known camera parameters -- typically produced by running structure-from-motion (SFM) to estimate poses and a sparse 3D point cloud. Most, if not all, NeRF pipelines make use of the former but ignore the latter. Our key insight is that such sparse 3D input can be used as an additional free signal during training.
-
-<p align="center">
-  <img src="figure_teaser.png"  width="800" />
-</p>
-
-## Results
-
-NeRF trained with 2 views:
-<p align="center">
-  <img src="resources/DSNeRF_nerf.gif"  width="800" />
-</p>
-
-DS-NeRF trained with 2 views:
-<p align="center">
-  <img src="resources/DSNeRF_dsnerf.gif"  width="800" />
-</p>
-
-NeRF trained with 5 views:
-<p align="center">
-  <img src="resources/all_nerf_5v.gif"  width="800" />
-</p>
-
-DS-NeRF trained with 5 views:
-<p align="center">
-  <img src="resources/all_dsnerf_5v.gif"  width="800" />
-</p>
-
----
-
+# DS-Nerf
+COLMAP is built in MacOS, while DS-Nerf is in Linux with CUDA support.
 
 ## Quick Start
 
@@ -66,20 +14,11 @@ You will also need [COLMAP](https://github.com/colmap/colmap) installed to compu
 
 ### Data
 
-Download data for the example scene: `fern_2v`
-```
-bash download_example_data.sh
-```
-
-To play with other scenes presented in the paper, download the data [here](https://drive.google.com/drive/folders/14boI-o5hGO9srnWaaogTU5_ji7wkX2S7).
-
 ### Pre-trained Models
 
-You can download the pre-trained models [here](https://drive.google.com/drive/folders/1lby-G4163NFi7Ue4rdB9D0cM67d7oskr?usp=sharing). Place the downloaded directory in `./logs` in order to test it later. See the following directory structure for an example:
+You can download our pre-trained models using the following script:
 ```
-├── logs 
-│   ├── fern_2v    # downloaded logs
-│   ├── flower_2v  # downloaded logs
+bash download_models.sh
 ```
 
 ### How to Run?
@@ -101,6 +40,9 @@ To generate the poses and sparse point cloud:
 ```
 python imgs2poses.py <your_scenedir>
 ```
+
+Note: if you use this data format, make sure your `dataset_type` in the config file is set as `llff`.
+
 
 #### Testing
 
@@ -135,22 +77,79 @@ You can create your own experiment configuration to try other datasets.
 
 We provide a tutorial on how to use depth-supervised loss in your own project [here](resources/tutorial.md).
 
----
 
-## Citation
-
-If you find this repository useful for your research, please cite the following work.
-```
-@article{kangle2021dsnerf,
-  title={Depth-supervised NeRF: Fewer Views and Faster Training for Free},
-  author={Deng, Kangle and Liu, Andrew and Zhu, Jun-Yan and Ramanan, Deva},
-  journal={arXiv preprint arXiv:2107.02791},
-  year={2021}
-}
-```
 
 ---
 
 ## Acknowledgments
 
-This code borrows heavily from [nerf-pytorch](https://github.com/yenchenlin/nerf-pytorch). We thank Takuya Narihira, Akio Hayakawa, Sheng-Yu Wang, and for helpful discussion. We are grateful for the support from Sony Corporation, Singapore DSTA, and the CMU Argo AI Center for Autonomous Vehicle Research.
+[colmap](https://github.com/colmap/colmap)
+[DS-Nerf](https://github.com/dunbar12138/DSNeRF)
+
+# temp
+
+## Prepare your own data
+
+### Take pictures
+- Take pictures of one subject, make sure to turn them into .png file.
+- Put the pictures into Dir 'data/'
+  - We have already put the pictures into 'data/earphone', you can use pictures in this directory or take your own pictures and follow the directory structure for an example.
+### To generate the poses and sparse point cloud
+
+#### use COLMAP app
+reference:
+https://blog.csdn.net/qq_40514113/article/details/131228304
+
+- Put the image data you generated in 'data', the structure should look like this:
+
+` 
+.
+├── earphone
+│   ├── earphone.db
+│   ├── images
+│   │   ├── IMG_6697.png
+│   │   ├── IMG_6698.png
+│   │   ├── IMG_6699.png
+│   │   ├── IMG_6700.png
+│   │   ├── ...
+│   ├── poses_bounds.npy
+│   └── sparse
+│       └── 0
+│           ├── cameras.bin
+│           ├── images.bin
+│           ├── points3D.bin
+│           └── project.ini
+`
+
+- Run 
+```python imgs2poses.py data/earphone```
+If it runs successfully, you will have the file  `poses_bounds.npy` generated.
+Rename the file to 'train_images.npy'
+
+#### use COLMAP code
+- You probably need to change the file path of colmap in 'llff/poses/colmap_wrapper.py'
+  or example:
+  > [feat_output = subprocess.check_output(['/usr/bin/colmap'] + feature_extractor_args, universal_newlines=True)]
+- If you don't have graphical interface environment, do this:
+  - download xvfb
+  ``` apt install xvfb```
+  - use xvfb to get sparse data
+  ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap feature_extractor --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --ImageReader.single_camera 1 --SiftExtraction.use_gpu 0```
+  ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap exhaustive_matcher --database_path data/earphone_2v/database.db```
+  ```xvfb-run -s "-screen 0 1024x768x24" /usr/bin/colmap mapper --database_path data/earphone_2v/database.db --image_path data/earphone_2v/images --export_path data/earphone_2v/sparse```
+  - If you meet this problem :
+    > QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-aadithyasb'
+    do this:
+    ```export XDG_RUNTIME_DIR=/NeRF/DSNeRF-main```
+    ```export RUNLEVEL=3```
+    ```cd ~```
+    ```source .bashrc```
+
+- If you do have graphical interface environment, do this:
+  ```python3 imgs2poses.py data/earphone_2v/```
+  
+#### Testing
+```python run_nerf.py --config configs/earphone.txt --render_only --dataset_type llff```
+
+### Train
+ ```python run_nerf.py --config configs/earphone.txt --dataset_type llff```
