@@ -70,6 +70,7 @@ After following the steps above, do:
     ```source .bashrc```
 
 - If you do have graphical interface environment, do this:
+  
   ```python3 imgs2poses.py data/earphone_2v/```
   
 #### Testing
